@@ -12,7 +12,7 @@
 | 3 | **Sebastián Jiménez** | Grupo de Investigación en Salud, Funcionalidad y Actividad Física (GISFAF), Kinesiología, Facultad de Ciencias de la Salud, Universidad Autónoma de Chile, Santiago, Chile; Brain Dynamics Laboratory, Universidad de Valparaíso, Chile | [0009-0005-8128-3579](https://orcid.org/0009-0005-8128-3579) |
 | 4 | **Wael El-Deredy** | Brain Dynamics Lab, Interdisciplinary Center of Biomedical and Engineering Research for Health, Universidad de Valparaíso, Chile | [0000-0002-9822-1092](https://orcid.org/0000-0002-9822-1092) |
 
-> Correspondence: sebastian.espinoza@uv.cl · Klaus.samson@meds.cl
+> Correspondence: inv.itisb@unab.cl
 
 ---
 
