@@ -39,6 +39,17 @@ outputs/main/
 outputs/suppl/
 outputs/diag_*.png
 
+# ── LaTeX manuscript (managed on Overleaf, not part of reproducibility repo) ──
+overleaf/
+
+# ── Assembled paper figures (Inkscape outputs) ────────────────────────────────
+fig1.png
+fig1.svg
+sup1.png
+sup2.png
+sup3.png
+sup3.svg
+
 # ── LaTeX auxiliaries (compile locally or on Overleaf) ───────────────────────
 overleaf/*.aux
 overleaf/*.log
