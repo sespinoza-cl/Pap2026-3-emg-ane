@@ -1,0 +1,52 @@
+# ── Data files (too large for GitHub; deposited on Zenodo) ──────────────────
+data_derived/
+*.npz
+*.bdf
+*.set
+*.fdt
+
+# ── Python cache ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+.env
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── OS / editor ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ── Generated figure panels (reproducible by running scripts) ─────────────────
+outputs/main/
+outputs/suppl/
+outputs/diag_*.png
+
+# ── LaTeX auxiliaries (compile locally or on Overleaf) ───────────────────────
+overleaf/*.aux
+overleaf/*.log
+overleaf/*.out
+overleaf/*.toc
+overleaf/*.bbl
+overleaf/*.blg
+overleaf/*.synctex.gz
+overleaf/*.fls
+overleaf/*.fdb_latexmk
+overleaf/*.pdf

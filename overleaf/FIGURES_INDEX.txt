@@ -1,0 +1,72 @@
+FIGURES INDEX — Paper3 (EMG masticatorio bajo anestesia)
+=========================================================
+Generado: 2026-06-03
+Directorio: overleaf/figures/
+
+FIGURAS PRINCIPALES (6_figs.tex)
+---------------------------------
+Fig 1   TikZ puro (sin archivo externo)
+        Diseño crossover + timeline + pipeline de procesamiento
+
+Fig 2   fig2_main_result.png
+        Boxplots med_amp (A) + CV_IPI (B) por bout + heatmap dz (C)
+        Hallazgo principal: ganancia transitoria bout 1, disociación amplitud/timing
+
+Fig 3   fig3a_washout.png   (panel A)
+        fig3b_washout.png   (panel B)
+        A: decaimiento exponencial ANE-PLA por bout (+ ajuste tau~2.9 min)
+        B: waterfall individual (26/34 barras naranjas bout 1)
+
+Fig 4   fig4_cycle_tf_cluster.png
+        TF 2x3: ANE | PLA | diff  x  bout1 / bout4
+        Contorno blanco = cluster significativo 30-300 Hz, p=0.035 directional
+
+
+FIGURAS SUPLEMENTARIAS (8_suppl.tex)
+--------------------------------------
+S1      s1_qc_montaje.png
+        Tabla de inclusion por sujeto (MDF, SNR, decision) + waveforms ejemplo
+
+S2      s2_psd_grand.png
+        Grand-average PSD (ANE/PLA/rest) — valida Zapline-plus (sin huecos)
+
+S3      Tabla LaTeX (sin archivo .png)
+        TOST session-averaged, todos los metricas (equivalencia formal)
+
+S4      Tabla LaTeX (sin archivo .png)
+        dz por bout x 11 metricas + interaction p (tabla completa)
+
+S5      s5_fatigue.png
+        Pendiente de fatiga espectral (MDF/MNF slope Hz/min) por bout x condicion
+        Demuestra ausencia de fatiga diferencial en cualquier bout (incl. bout 1)
+
+S6      s6_tf_full.png
+        Grid 4x2: TF todos los bouts x condiciones (washout progresivo visible)
+
+S7      s7_order_carryover.png
+        3 paneles: efecto por brazo (R1/R2), carryover (placebo R1 vs R2), periodo
+
+S8      Tabla LaTeX (sin archivo .png)
+        Robustez: dz, p, %ANE>PLA para N=30/32/34/36
+
+S9      s9_diagnostics.png
+        6 sujetos representativos: waveform bout 1 + PSD (alta respuesta a baja)
+
+S11     s11_bout_med_amp.png
+        s11_bout_rms_amp.png
+        s11_bout_p_60_150.png
+        s11_bout_cv_ipi.png
+        s11_bout_MDF.png
+        s11_bout_chew_rate.png
+        Grid 3x2: 6 metricas EMG por bout (lineas mean+SEM)
+
+S12     s12_bilateral_sync.png
+        s12_bilateral_sides.png
+        Sincronía bilateral (correlacion L-R) + asimetria + amplitud por lado
+
+NOTAS
+------
+- S10 eliminado (forest plot era redundante con Tabla S3)
+- Fig 1 es TikZ puro: no tiene archivo .png asociado
+- S3, S4, S8 son tablas LaTeX: no tienen archivo .png asociado
+- Prefijo del archivo = numero de figura en el paper (fig2_, fig3_, s1_, etc.)

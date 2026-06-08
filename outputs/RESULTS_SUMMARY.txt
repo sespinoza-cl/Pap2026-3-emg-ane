@@ -1,0 +1,95 @@
+========================================================================
+PAPER 3 — EMG masticatorio bajo anestesia topica
+Resultados consolidados  (generado por 99_results_summary.py)
+========================================================================
+
+1. SAMPLE & QC
+----------------------------------------
+  Total enrolled    : 36
+  Included (auto_ok): 34
+  Excluded          : 2  (M7, M3)
+  Side selected R   : 27
+  Side selected L   : 7
+
+2. SESSION-AVERAGED RESULT  (4 bouts pooled, N=34)
+----------------------------------------
+  Feature                         dz  Wilcox p     FDR p
+  MDF                         -0.191    0.1856    0.3764
+  MNF                         -0.235    0.1383    0.3359
+  peakF                       -0.006    0.5307    0.6444
+  totpow                      +0.317    0.1087    0.3359
+  rms_amp                     +0.320    0.1087    0.3359
+  p_20_60                     +0.354    0.1207    0.3359
+  p_60_150                    +0.331    0.1087    0.3359
+  p_150_250                   +0.205    0.2214    0.3764
+  p_250_450                   -0.045    1.0000    1.0000
+  chew_rate                   +0.182    0.2778    0.4154
+  cv_ipi                      -0.278    0.0464    0.3359
+  med_dur                     -0.049    0.7582    0.8056
+  med_amp                     +0.349    0.0107    0.1811
+  med_area                    +0.157    0.3787    0.4952
+  duty                        +0.233    0.2214    0.3764
+  mdf_slope                   +0.172    0.2932    0.4154
+  mnf_slope                   +0.120    0.6123    0.6940
+
+3. BOUT-RESOLVED ANALYSIS  (main finding, N=34)
+----------------------------------------
+  Feature                   dz_b1     p_b1   FDR_b1    dz_b2   dz_b3   dz_b4 trend_p    inter_p   inter_gg
+  rms_amp                  +0.487   0.0036   0.0132   +0.257  +0.034  +0.024     0.0358     0.1228     0.1300
+  totpow                   +0.456   0.0032   0.0132   +0.261  +0.032  +0.095     0.0408     0.2603     0.2633
+  med_amp                  +0.695   0.0003   0.0035   +0.248  -0.120  -0.058     0.0002     0.0004     0.0010
+  med_area                 +0.339   0.0343   0.0538   -0.145  +0.102  +0.017     0.3880     0.1888     0.2001
+  p_20_60                  +0.467   0.0125   0.0274   +0.231  +0.151  +0.027     0.0408     0.4451     0.4278
+  p_60_150                 +0.463   0.0069   0.0189   +0.281  +0.025  +0.100     0.0594     0.2385     0.2441
+  MDF                      -0.147   0.5081   0.6210   -0.275  -0.139  +0.085     0.5496     0.5262     0.4851
+  MNF                      -0.190   0.3880   0.5335   -0.340  -0.167  +0.060     0.4568     0.4568     0.4313
+  chew_rate                +0.054   0.9194   0.9194   +0.331  -0.069  +0.113     0.8001     0.2298     0.2367
+  cv_ipi                   -0.434   0.0227   0.0415   -0.051  -0.070  -0.026     0.0723     0.0499     0.0573
+  duty                     +0.045   0.8264   0.9090   +0.203  +0.213  +0.185     0.7742     0.8476     0.8329
+
+  FDR-significant at bout 1: ['rms_amp', 'totpow', 'med_amp', 'p_20_60', 'p_60_150', 'cv_ipi']
+  Sig. cond x bout interaction: ['med_amp', 'cv_ipi']
+
+4. WASHOUT TIME COURSE
+----------------------------------------
+  ANE-PLA diff by bout (uV): +30.5  +8.8  -4.4  -2.2
+  Bout 1: median=22.1 uV  Wilcoxon p=0.0003  76% ANE>PLA
+  Decay trend (slopes vs 0): p=0.0002
+  Exp. decay fit: A=96.3 uV  tau=2.9 min  t_half=2.0 min
+
+5. CYCLE-LOCKED TIME-FREQUENCY (cluster permutation)
+----------------------------------------
+  Bout 1: cluster p = 0.035 (directional ANE>PLA)
+          two-tailed p = 0.051
+          cluster extent: ~30-300 Hz, -0.15 to +0.1 s around cycle peak
+  Bout 4: no cluster  p_min = 0.59
+  (values from 62_cycle_tf_cluster.py console output)
+
+6. ROBUSTNESS ACROSS INCLUSION COHORTS  (med_amp bout 1)
+----------------------------------------
+  Cohort                 N    dz_b1         p  pct_ANE>PLA
+  QC auto N=34          34   +0.695    0.0003       76.5%
+  lista30 N=30          30   +0.679    0.0010       76.7%
+  lista32 N=32          32   +0.651    0.0010       75.0%
+  all N=36              34   +0.695    0.0003       76.5%
+
+7. ORDER & CARRYOVER (crossover control)
+----------------------------------------
+  Mixed ANOVA cond effect at bout 1: F=17.1  p=0.0002  np2=0.35
+  Cond x sequence interaction: p=0.136 (ns)
+  Carryover (R1 PLA vs R2 PLA): p=0.379 (ns)
+  Period effect (block 1 vs 2): p=0.134 (ns)
+
+8. BILATERAL EMG SYNCHRONY  (N=31 valid L+R)
+----------------------------------------
+  sync_r ANE bouts 1-4: 0.812  0.803  0.801  0.796
+  sync_r PLA bouts 1-4: 0.839  0.836  0.821  0.816
+  asym   ANE bouts 1-4: -0.194  -0.208  -0.200  -0.196
+  asym   PLA bouts 1-4: -0.172  -0.192  -0.192  -0.195
+  Wilcoxon sync_r bout 1: dz=-0.265  p=0.1517  FDR=0.5770
+  cond x bout interaction (sync_r): p=0.694
+  cond x bout interaction (asym):   p=0.500
+
+========================================================================
+END OF SUMMARY
+========================================================================
