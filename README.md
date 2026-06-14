@@ -1,4 +1,4 @@
-# Sensorimotor gain compensation during masticatory EMG under topical dental anaesthesia: a bout-resolved secondary analysis
+# Sensorimotor gain compensation preserves human masticatory rhythm during transient somatosensory deprivation
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
