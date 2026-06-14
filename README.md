@@ -1,6 +1,6 @@
 # Sensorimotor gain compensation preserves human masticatory rhythm during transient somatosensory deprivation
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20601653.svg)](https://doi.org/10.5281/zenodo.20601653)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## Authors
@@ -112,7 +112,7 @@ python 10_preprocess.py       # Raw BDF → data_derived/*.npz
 | Dataset | Location | Size | Contents |
 |---------|----------|------|----------|
 | Pre-computed features | `outputs/*.csv` (this repo) | ~180 KB | All features and statistics — sufficient to reproduce all plots |
-| Preprocessed EMG signals | [Zenodo — DOI: 10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX) | ~1.4 GB | Per-subject bipolar masseter EMG, 1024 Hz, Zapline-cleaned (`.npz`) |
+| Preprocessed EMG signals | [Zenodo — DOI: 10.5281/zenodo.20601653](https://doi.org/10.5281/zenodo.20601653) | ~1.4 GB | Per-subject bipolar masseter EMG, 1024 Hz, Zapline-cleaned (`.npz`) |
 | Raw recordings (EEG + EMG) | Available on request from corresponding author | ~30 GB | BDF files, 73 channels, 1024 Hz |
 
 > **Why 1024 Hz?** Masticatory EMG spectral analysis requires frequency content up to 450 Hz (median frequency estimation, Morlet TF decomposition). Downsampling would compromise reproducibility of the published results and is explicitly avoided in the pipeline.
@@ -191,7 +191,7 @@ If you use this code or data, please cite the paper and the dataset:
   author  = {Espinoza, Sebastian and {Klaus Samson} and Jim\'{e}nez, Sebasti\'{a}n and {El-Deredy}, Wael},
   year    = {2025},
   publisher = {Zenodo},
-  doi     = {10.5281/zenodo.XXXXXXX}
+  doi     = {10.5281/zenodo.20601653}
 }
 ```
 
