@@ -1,9 +1,9 @@
-"""S5 revisado: pendiente de fatiga espectral (MDF/MNF slope Hz/min) por bout.
+"""S5 revised: spectral fatigue slope (MDF/MNF slope, Hz/min) per chewing bout.
 
-Reemplaza el timecourse ventana-a-ventana (ilegible por gating masticatorio)
-con la pendiente de regresion lineal del MDF/MNF dentro de cada bout de 60 s,
-separada por bout y condicion. Una pendiente nula e identica entre condiciones
-demuestra ausencia de fatiga diferencial en cualquier momento del experimento.
+Replaces the window-by-window timecourse (uninterpretable due to masticatory gating)
+with the linear regression slope of MDF/MNF within each 60-s bout,
+stratified by bout and condition. A null, identical slope across conditions
+demonstrates the absence of differential spectral fatigue at any point in the experiment.
 """
 import numpy as np
 import pandas as pd
@@ -30,7 +30,7 @@ def included():
 
 
 def bout_slope(bout_sig, fs):
-    """Pendiente lineal de MDF y MNF dentro del bout (Hz/min)."""
+    """Linear slope of MDF and MNF within a chewing bout (Hz/min)."""
     t, mdf, mnf = mdf_mnf_timecourse(bout_sig, fs)
     ok_mdf = np.isfinite(mdf)
     ok_mnf = np.isfinite(mnf)
@@ -41,7 +41,7 @@ def bout_slope(bout_sig, fs):
 
 def collect_slopes(sel, fs=1024.0):
     """
-    Devuelve DataFrames con columnas [subj, cond, bout, mdf_slope, mnf_slope].
+    Returns a DataFrame with columns [subj, cond, bout, mdf_slope, mnf_slope].
     """
     rows = []
     for subj, side in sel:
@@ -57,7 +57,7 @@ def collect_slopes(sel, fs=1024.0):
 
 
 def draw_panel(ax, df, metric, ylabel, panel_label):
-    """Line plot mean±SEM por bout para ANE y PLA."""
+    """Line plot of mean ± SEM per bout for ANE and PLA conditions."""
     xs = np.array(BOUTS)
     for cond, color, label in [("ANE", ANE_C, "Anesthesia"),
                                 ("PLA", PLA_C, "Placebo")]:
@@ -80,7 +80,7 @@ def draw_panel(ax, df, metric, ylabel, panel_label):
     ax.text(-0.13, 1.04, panel_label, transform=ax.transAxes,
             fontsize=11, fontweight="bold", va="top")
 
-    # N en esquina
+    # N in corner
     n = df.subj.nunique()
     ax.text(0.98, 0.97, f"N = {n}", transform=ax.transAxes,
             fontsize=7.5, ha="right", va="top", color="0.4")
@@ -88,10 +88,10 @@ def draw_panel(ax, df, metric, ylabel, panel_label):
 
 def main():
     sel = included()
-    print(f"Sujetos incluidos: {len(sel)}")
+    print(f"Included subjects: {len(sel)}")
 
     df = collect_slopes(sel)
-    print("Pendientes MDF medias (Hz/min):")
+    print("Mean MDF slopes (Hz/min):")
     print(df.groupby(["cond", "bout"])["mdf_slope"].mean().unstack("bout").round(1))
 
     for metric, ylabel, stem in [
@@ -105,8 +105,8 @@ def main():
         fig.tight_layout()
         save_fig(fig, stem, SUPPL)
 
-    # Resumen estadistico descriptivo
-    print("\nResumen por condicion y bout:")
+    # Descriptive statistics summary
+    print("\nSummary by condition and bout:")
     print(df.groupby(["cond", "bout"])[["mdf_slope", "mnf_slope"]]
           .agg(["mean", "std"]).round(2))
 

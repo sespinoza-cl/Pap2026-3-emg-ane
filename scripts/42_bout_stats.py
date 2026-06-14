@@ -1,10 +1,10 @@
-"""Estadistica por BOUT: el efecto de la anestesia, ¿es mayor temprano y decae?
+"""Bout-resolved statistics: is the anesthesia effect larger early and does it decay?
 
-Tres pruebas por metrica (sobre la diferencia pareada d = ANE - PLA por bout):
-  1. Pareado por bout (Wilcoxon) ANE vs PLA -> ¿hay efecto en bout 1?
-  2. Tendencia: pendiente por sujeto de d vs bout -> ¿decae el efecto? (test vs 0)
-  3. ANOVA de medidas repetidas 2(cond) x 4(bout) -> interaccion cond*bout.
-FDR (BH) sobre los p de bout 1.
+Three tests per metric (on the paired difference d = ANE - PLA per bout):
+  1. Paired Wilcoxon per bout (ANE vs PLA) -> is there an effect at bout 1?
+  2. Decay trend: per-subject slope of d vs bout -> does the effect decay? (test vs 0)
+  3. Repeated-measures ANOVA 2(condition) x 4(bout) -> condition*bout interaction.
+FDR (Benjamini-Hochberg) applied to bout-1 p-values across metrics.
 """
 import numpy as np
 import pandas as pd
@@ -26,18 +26,18 @@ def bh_fdr(p):
 
 def main():
     df = pd.read_csv(OUT / "bout_features.csv")
-    print("Sujetos:", df.subj.nunique(), " bouts/cond:", sorted(df.bout.unique()))
+    print("Subjects:", df.subj.nunique(), " bouts/cond:", sorted(df.bout.unique()))
     rows, inter_rows = [], []
     for feat in FEATURES:
-        # matriz subj x bout para cada condicion
+        # subject x bout matrix for each condition
         a = df[df.cond == "ANE"].pivot_table(index="subj", columns="bout", values=feat)
         p = df[df.cond == "PLA"].pivot_table(index="subj", columns="bout", values=feat)
         common = a.dropna().index.intersection(p.dropna().index)
         a, p = a.loc[common], p.loc[common]
-        d = a - p  # diferencia por bout
+        d = a - p  # paired difference per bout
         n = len(common)
 
-        # 1. pareado por bout
+        # 1. paired per bout
         bout_p, bout_dz = {}, {}
         for b in [1, 2, 3, 4]:
             x, y = a[b].values, p[b].values
@@ -48,12 +48,12 @@ def main():
             dz = (x-y).mean()/(x-y).std(ddof=1) if (x-y).std(ddof=1) > 0 else np.nan
             bout_p[b] = wp; bout_dz[b] = dz
 
-        # 2. tendencia: pendiente por sujeto de d vs bout
+        # 2. decay trend: per-subject slope of d vs bout
         slopes = np.array([np.polyfit([1, 2, 3, 4], d.loc[s].values, 1)[0] for s in common])
         tr = stats.wilcoxon(slopes).pvalue if np.any(slopes != 0) else np.nan
         slope_mean = slopes.mean()
 
-        # 3. RM-ANOVA 2x4 (interaccion)
+        # 3. RM-ANOVA 2x4 (interaction)
         long = df[df.subj.isin(common)][["subj", "cond", "bout", feat]].rename(columns={feat: "y"})
         try:
             aov = pg.rm_anova(data=long, dv="y", within=["cond", "bout"], subject="subj",
@@ -83,9 +83,9 @@ def main():
     show["slope_mean"] = show["slope_mean"].apply(lambda v: f"{v:.2g}")
     print(show[["feature", "n", "dz_b1", "p_b1", "p_b1_fdr", "dz_b2", "dz_b3", "dz_b4",
                 "slope_mean", "trend_p", "inter_p"]].to_string(index=False))
-    print("\nbout1 signif (FDR<.05):", res.loc[res.p_b1_fdr < 0.05, "feature"].tolist())
-    print("tendencia signif (p<.05):", res.loc[res.trend_p < 0.05, "feature"].tolist())
-    print("interaccion cond*bout (p<.05):", res.loc[res.inter_p < 0.05, "feature"].tolist())
+    print("\nbout1 significant (FDR<.05):", res.loc[res.p_b1_fdr < 0.05, "feature"].tolist())
+    print("decay trend significant (p<.05):", res.loc[res.trend_p < 0.05, "feature"].tolist())
+    print("interaction cond*bout (p<.05):", res.loc[res.inter_p < 0.05, "feature"].tolist())
 
 
 if __name__ == "__main__":
