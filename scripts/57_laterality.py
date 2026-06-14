@@ -158,9 +158,14 @@ def wide(df, cond, bout, col):
 
 
 def make_figures(df):
-    """Assertion-evidence panels (FIGSIZE each, collage-ready, no titles)."""
+    """Assertion-evidence panels (FIGSIZE each, collage-ready, no titles).
+    Numbers live in the Results text; figures carry only significance marks."""
     plt.rcParams.update(RC)
     GREY = "#9A9A9A"
+
+    def stars(p):
+        return ("***" if p < 0.001 else "**" if p < 0.01
+                else "*" if p < 0.05 else "n.s.")
 
     def diff_side(side):
         a = wide(df, "ANE", 1, f"mamp_{side}")
@@ -171,9 +176,11 @@ def make_figures(df):
     dR, dL = diff_side("R"), diff_side("L")
     common = dR.index.intersection(dL.index)
     dRv, dLv = dR.loc[common].values, dL.loc[common].values
-    _, dzR, _, pR = paired(wide(df, "ANE", 1, "mamp_R").loc[common].values,
-                           wide(df, "PLA", 1, "mamp_R").loc[common].values)
-    _, dzC, _, pC = paired(dRv, dLv)
+    _, _, _, pR = paired(wide(df, "ANE", 1, "mamp_R").loc[common].values,
+                         wide(df, "PLA", 1, "mamp_R").loc[common].values)
+    _, _, _, pL = paired(wide(df, "ANE", 1, "mamp_L").loc[common].values,
+                         wide(df, "PLA", 1, "mamp_L").loc[common].values)
+    _, _, _, pC = paired(dRv, dLv)
 
     # Panel A: lateralisation of the bout-1 effect (working vs balancing)
     fig, ax = plt.subplots(figsize=FIGSIZE)
@@ -191,36 +198,21 @@ def make_figures(df):
                    linewidth=0.4, zorder=3, alpha=0.95)
     ax.axhline(0, color="#444", lw=0.8, ls="--")
     ax.set_xticks(pos)
-    ax.set_xticklabels(["Working side\n(right)",
-                        "Balancing side\n(left, anaesthetised)"])
-    ax.set_ylabel("Bout-1 anaesthesia effect\n(ANE − PLA, median cycle amp., µV)")
+    ax.set_xticklabels(["Working\n(right)", "Balancing\n(left)"])
+    ax.set_ylabel(r"$\Delta$ median cycle amplitude ($\mu$V)")
     yhi = max(d.max() for d in data); ylo = min(d.min() for d in data)
     r2 = yhi - ylo
-    ax.text(1, yhi + r2 * 0.04, f"d$_z$={dzR:+.2f}\np={pR:.3f}",
-            ha="center", va="bottom", fontsize=8)
-    ax.text(2, yhi + r2 * 0.04, "n.s.", ha="center", va="bottom", fontsize=8)
-    ax.text(1.5, yhi + r2 * 0.22, f"working > balancing: p={pC:.3f} (n={len(common)})",
-            ha="center", va="bottom", fontsize=8, color="#333")
-    ax.set_ylim(ylo - r2 * 0.08, yhi + r2 * 0.34)
+    # per-box significance vs zero
+    ax.text(1, yhi + r2 * 0.03, stars(pR), ha="center", va="bottom", fontsize=12)
+    ax.text(2, yhi + r2 * 0.03, stars(pL), ha="center", va="bottom", fontsize=9)
+    # comparison bracket (working vs balancing)
+    ybar, h = yhi + r2 * 0.20, r2 * 0.03
+    ax.plot([1, 1, 2, 2], [ybar, ybar + h, ybar + h, ybar], color="#333", lw=1.0)
+    ax.text(1.5, ybar + h, stars(pC), ha="center", va="bottom", fontsize=12)
+    ax.set_ylim(ylo - r2 * 0.08, ybar + r2 * 0.16)
     fig.tight_layout()
     save_fig(fig, "s11_laterality_bout1", MAIN)
-
-    # Panel B: working-side compliance (amplitude asymmetry per participant)
-    asym = df.groupby("subj")["asym"].mean().sort_values()
-    fig, ax = plt.subplots(figsize=FIGSIZE)
-    xx = np.arange(len(asym))
-    colb = [ANEC if v < 0 else GREY for v in asym.values]
-    ax.bar(xx, asym.values, color=colb, alpha=0.78, width=0.85)
-    ax.axhline(0, color="#444", lw=0.9)
-    ax.set_xlabel("Participant (sorted)")
-    ax.set_ylabel("Amplitude asymmetry\n(L − R)/(L + R)")
-    n_rd = int((asym.values < 0).sum())
-    ax.text(0.03, 0.06, f"{n_rd}/{len(asym)} right-dominant "
-            f"({n_rd / len(asym) * 100:.0f}%)",
-            transform=ax.transAxes, fontsize=8, va="bottom")
-    ax.set_xticks([])
-    fig.tight_layout()
-    save_fig(fig, "s11_working_side", MAIN)
+    # (working-side compliance reported as text in Results, not as a panel)
 
 
 def main():
@@ -293,7 +285,7 @@ def main():
             print(f"  selected={sside}: n={len(idx)} too few")
 
     make_figures(df)
-    print("\nFigures -> outputs/main/: s11_laterality_bout1.png, s11_working_side.png")
+    print("\nFigure -> outputs/main/: s11_laterality_bout1.png")
 
 
 if __name__ == "__main__":

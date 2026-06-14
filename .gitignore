@@ -39,6 +39,10 @@ outputs/main/
 outputs/suppl/
 outputs/diag_*.png
 
+# ── Zenodo EMG data exports (deposited on Zenodo, not tracked in git) ─────────
+zenodo_emg/
+zenodo_emg_bids/
+
 # ── LaTeX manuscript (managed on Overleaf, not part of reproducibility repo) ──
 overleaf/
 
