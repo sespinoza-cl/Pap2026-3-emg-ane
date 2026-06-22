@@ -16,12 +16,13 @@ EMG_LABELS = ["EXG5", "EXG6", "EXG7", "EXG8"]
 
 # --- Filtrado EMG (en fs original, anti-aliasing: filtrar ANTES de cualquier resample) ---
 BP_LOW     = 20.0            # Hz
-BP_HIGH    = 450.0           # Hz
+BP_HIGH    = 450.0           # Hz  (el filtro CIC hardware del BioSemi ActiveTwo
+#                                   tiene -3 dB a ~205 Hz a 1024 Hz; señal >205 Hz ya viene
+#                                   atenuada por hardware. El análisis TF se restringe a ≤200 Hz.)
 BP_ORDER   = 4              # Butterworth (filtfilt -> orden efectivo x2, fase cero)
 # Ruido de linea: se elimina con Zapline-plus (no notch) para preservar el
 # espectro; ver 10_preprocess.LINE_NOISEFREQS.
-# Se mantiene 1024 Hz (sin downsample) para preservar la banda EMG hasta 450 Hz
-# y una estimacion fiel de la frecuencia mediana.
+# Se mantiene 1024 Hz (sin downsample) para MDF/MNF dentro de la banda hardware (~205 Hz).
 
 # --- Segmentacion ---
 CHEW_CODE_ON   = 1          # inicio de bout de masticacion

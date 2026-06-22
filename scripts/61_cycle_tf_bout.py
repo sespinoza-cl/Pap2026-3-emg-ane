@@ -12,7 +12,7 @@ from emg_cycles import detect_cycle_peaks, epoch_around_peaks
 from emg_tf import reshape_bouts
 from fig_style import RC, FIGSIZE_WIDE, SUPPL, save_fig
 
-FREQS = np.logspace(np.log10(20), np.log10(450), 45)
+FREQS = np.logspace(np.log10(20), np.log10(200), 35)  # BioSemi CIC: -3dB ~205 Hz
 N_CYCLES = np.clip(FREQS / 6.0, 4, 15)
 
 

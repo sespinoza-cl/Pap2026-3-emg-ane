@@ -1,5 +1,5 @@
 """Washout analysis — two separate panels for Inkscape assembly:
-  fig3a_washout_curve.png   ANE-PLA decay over 4 bouts + exponential fit
+  fig3a_washout_curve.png   ANE-PLA decay over 4 bouts (mean ± 95% CI)
   fig3b_individual.png      Per-subject bar plot at bout 1
 """
 import numpy as np
@@ -8,16 +8,11 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from scipy.optimize import curve_fit
 from scipy import stats
 from config import OUT
 from fig_style import RC, FIGSIZE, ANEC, PLAC, MAIN, save_fig
 
 MIN_POST = np.array([3.3, 7.9, 12.6, 17.2])
-
-
-def expdecay(t, A, tau):
-    return A * np.exp(-t / tau)
 
 
 def _load():
@@ -36,14 +31,6 @@ def _load():
     ci_lo = np.percentile(bt, 2.5,  axis=0)
     ci_hi = np.percentile(bt, 97.5, axis=0)
 
-    try:
-        popt, _ = curve_fit(expdecay, MIN_POST, mu, p0=[mu[0], 8], maxfev=10000)
-        A, tau = popt
-        fit_ok = True
-    except Exception:
-        A = tau = None
-        fit_ok = False
-
     slopes  = np.array([np.polyfit(MIN_POST, d.loc[s].values, 1)[0] for s in common])
     trend_p = stats.wilcoxon(slopes).pvalue
     b1      = d[1].values
@@ -51,11 +38,8 @@ def _load():
     frac    = np.mean(b1 > 0) * 100
 
     print(f"N={n}, bout1: Wilcoxon p={b1_p:.4f}, {frac:.0f}% ANE>PLA, trend p={trend_p:.4f}")
-    if fit_ok:
-        print(f"Exp fit: A={A:.1f} µV, tau={tau:.1f} min")
 
     return dict(mu=mu, se=se, ci_lo=ci_lo, ci_hi=ci_hi,
-                A=A, tau=tau, fit_ok=fit_ok,
                 b1=b1, b1_p=b1_p, frac=frac, n=n)
 
 
@@ -66,12 +50,6 @@ def panel_curve(wd):
     ax.fill_between(MIN_POST, wd["ci_lo"], wd["ci_hi"], color=ANEC, alpha=0.22)
     ax.errorbar(MIN_POST, wd["mu"], fmt="o", color=ANEC, ms=6, zorder=4,
                 capsize=3, elinewidth=0.9)
-
-    if wd["fit_ok"]:
-        tt = np.linspace(MIN_POST[0], MIN_POST[-1], 120)
-        ax.plot(tt, expdecay(tt, wd["A"], wd["tau"]), color=ANEC, lw=1.8,
-                label=f"exp. fit  ($\\tau$={wd['tau']:.1f} min)")
-        ax.legend()
 
     ax.axhline(0, color="#555555", ls="--", lw=0.9)
     ax.set_xlabel("Time post-application (min)")
